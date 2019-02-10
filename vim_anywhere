@@ -28,8 +28,9 @@ chmod o-r $TMPFILE # Make file only readable by you
 
 if [[ $read_clipboard == 'true' ]]; then
     xclip -o -selection clipboard > $TMPFILE
+    $TERMINAL -e nvim $TMPFILE
+else
+    $TERMINAL -e nvim $TMPFILE +startinsert
 fi
-
-$TERMINAL -e nvim $TMPFILE
 
 cat $TMPFILE | xclip -selection clipboard
