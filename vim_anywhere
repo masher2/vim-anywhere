@@ -39,4 +39,8 @@ else
     $TERMINAL -e nvim $TMPFILE +startinsert
 fi
 
+# Copy the content to the clipboard
 cat $TMPFILE | xclip -selection clipboard
+
+# Automatically paste after closing
+xdotool key --delay 100 ctrl+v
