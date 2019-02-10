@@ -9,24 +9,6 @@
 # 
 # Modified by Jesús Pérez to use terminal neovim and work only on linux
 
-
-###
-# defs
-###
-
-err() { echo -e "$@" 1>&2; }
-
-require_file_exists() {
-  if [ ! -e $1 ]; then
-    err "$1 does not exist. ${@:2}"
-    exit 1
-  fi
-}
-
-###
-# opts
-###
-
 while getopts ":v" opt; do
   case "$opt" in
     v) set -x ;;
@@ -34,29 +16,14 @@ while getopts ":v" opt; do
   esac
 done
 
-###
-# run
-###
-
-AW_PATH=$HOME/.vim-anywhere
+TERMINAL='kitty'
 TMPFILE_DIR=/tmp/vim-anywhere
 TMPFILE=$TMPFILE_DIR/doc-$(date +"%y%m%d%H%M%S")
-VIM_OPTS=--nofork
-
-# Use ~/.gvimrc.min or ~/.vimrc.min if one exists
-VIMRC_PATH=($HOME/.gvimrc.min $HOME/.vimrc.min)
-
-for vimrc_path in "${VIMRC_PATH[@]}"; do
-    if [ -f $vimrc_path ]; then
-        VIM_OPTS+=" -u $vimrc_path"
-        break
-    fi
-done
 
 mkdir -p $TMPFILE_DIR
 touch $TMPFILE
 
 # Linux
 chmod o-r $TMPFILE # Make file only readable by you
-gvim $VIM_OPTS $TMPFILE
+$TERMINAL -e nvim $TMPFILE
 cat $TMPFILE | xclip -selection clipboard
