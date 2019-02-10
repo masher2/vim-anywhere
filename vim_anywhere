@@ -9,9 +9,10 @@
 # 
 # Modified by Jesús Pérez to use terminal neovim and work only on linux
 
-while getopts ":v" opt; do
+while getopts ":cv" opt; do
   case "$opt" in
     v) set -x ;;
+    c) read_clipboard='true' ;;
     \?) echo "Invalid option: -$OPTARG" >&2 ;;
   esac
 done
@@ -23,7 +24,12 @@ TMPFILE=$TMPFILE_DIR/doc-$(date +"%y%m%d%H%M%S")
 mkdir -p $TMPFILE_DIR
 touch $TMPFILE
 
-# Linux
 chmod o-r $TMPFILE # Make file only readable by you
+
+if [[ $read_clipboard == 'true' ]]; then
+    xclip -o -selection clipboard > $TMPFILE
+fi
+
 $TERMINAL -e nvim $TMPFILE
+
 cat $TMPFILE | xclip -selection clipboard
