@@ -43,4 +43,5 @@ fi
 cat $TMPFILE | xclip -selection clipboard
 
 # Automatically paste after closing
-xdotool key --delay 100 ctrl+v
+xdotool key --clearmodifiers --delay 100 Control_L+v
+xdotool key Super_L Shift_L Shift_R
