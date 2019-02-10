@@ -18,14 +18,20 @@ while getopts ":cv" opt; do
 done
 
 TERMINAL='kitty'
-TMPFILE_DIR=/tmp/vim-anywhere
-TMPFILE=$TMPFILE_DIR/doc-$(date +"%y%m%d%H%M%S")
+TMPFILE_DIR="$(mktemp -d /tmp/vim-anywhere.XXX)"
+TMPFILE_TEMPLATE=doc-$(date +"%y%m%d%H%M%S").XXX
 
 mkdir -p $TMPFILE_DIR
-touch $TMPFILE
+TMPFILE="$(mktemp -p $TMPFILE_DIR -t $TMPFILE_TEMPLATE)"
 
-chmod o-r $TMPFILE # Make file only readable by you
+remove_tmp_dir() {
+    rm -rf $TMPFILE_DIR
+}
 
+# Remove all temp files on exit and sigint
+trap "remove_tmp_dir" EXIT SIGINT
+
+# Launch vim
 if [[ $read_clipboard == 'true' ]]; then
     xclip -o -selection clipboard > $TMPFILE
     $TERMINAL -e nvim $TMPFILE
