@@ -17,7 +17,7 @@ while getopts ":cv" opt; do
   esac
 done
 
-TERMINAL='kitty'
+TERMINAL='kitty --class "vim-anywhere"'
 TMPFILE_DIR="$(mktemp -d /tmp/vim-anywhere.XXX)"
 TMPFILE_TEMPLATE=doc-$(date +"%y%m%d%H%M%S").XXX
 
@@ -44,4 +44,7 @@ cat $TMPFILE | xclip -selection clipboard
 
 # Automatically paste after closing
 xdotool key --clearmodifiers --delay 100 Control_L+v
+
+# If modifying text inside surf browser the Super key stays pressed, this line
+# fixes that problem
 xdotool key Super_L Shift_L Shift_R
