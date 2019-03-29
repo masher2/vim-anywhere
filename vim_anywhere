@@ -47,4 +47,4 @@ xdotool key --clearmodifiers --delay 100 Control_L+v
 
 # If modifying text inside surf browser the Super key stays pressed, this line
 # fixes that problem
-xdotool key Super_L Shift_L Shift_R
+xdotool key Super_L Shift_L Control_L Alt_L
