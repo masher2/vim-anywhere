@@ -17,7 +17,7 @@ while getopts ":cv" opt; do
   esac
 done
 
-TERMINAL='kitty --class "vim-anywhere"'
+TERMINAL='kitty --class "vim-anywhere" -o background_opacity=0.8'
 TMPFILE_DIR="$(mktemp -d /tmp/vim-anywhere.XXX)"
 TMPFILE_TEMPLATE=doc-$(date +"%y%m%d%H%M%S").XXX
 
